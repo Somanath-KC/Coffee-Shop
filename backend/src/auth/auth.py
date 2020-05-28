@@ -21,9 +21,9 @@ AuthError Exception
 A standardized way to communicate auth failure modes
 '''
 class AuthError(Exception):
-    def __init__(self, error_code, message):
-        self.error = error_code
-        self.message = message
+    def __init__(self, error, status_code):
+        self.error = error
+        self.status_code = status_code
 
 
 ## Auth Header
@@ -170,10 +170,16 @@ def requires_auth(permission=''):
     def requires_auth_decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
-            token = get_token_auth_header()
-            payload = verify_decode_jwt(token)
-            check_permissions(permission, payload)
-            return f(payload, *args, **kwargs)
+            try:
+                token = get_token_auth_header()
+                payload = verify_decode_jwt(token)
+                check_permissions(permission, payload)
+                return f(payload, *args, **kwargs)
+            except:
+                raise AuthError({
+                    'error': 400,
+                    'message': 'Invalid Authorization'
+                }, 400)
 
         return wrapper
     return requires_auth_decorator
