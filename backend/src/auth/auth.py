@@ -21,9 +21,9 @@ AuthError Exception
 A standardized way to communicate auth failure modes
 '''
 class AuthError(Exception):
-    def __init__(self, error, status_code):
-        self.error = error
-        self.status_code = status_code
+    def __init__(self, error_code, message):
+        self.error = error_code
+        self.message = message
 
 
 ## Auth Header
@@ -40,7 +40,6 @@ def get_token_auth_header():
     auth_header = request.headers.get('Authorization', None)
     if not auth_header:
         raise AuthError({
-            'success': False,
             'error': 401,
             'message': 'Missing authorization header.'
         }, 401)
@@ -48,14 +47,12 @@ def get_token_auth_header():
     parts = auth_header.split(' ')
     if parts[0].lower() != 'bearer':
         raise AuthError({
-            'success': False,
             'error': 401,
             'message': 'Authorization must contain bearer.'
         }, 401)
 
     elif len(parts) == 1:
         raise AuthError({
-            'success': False,
             'error': 401,
             'message': 'Invalid authorization header.'
         }, 401)
@@ -78,14 +75,12 @@ def get_token_auth_header():
 def check_permissions(permission, payload):
     if not payload.get('permissions'):
         raise AuthError({
-            'success': False,
             'error': 401,
             'message': 'No Permissions Found.'
         }, 401)
 
     if permission not in payload.get('permissions'):
         raise AuthError({
-            'success': False,
             'error': 403,
             'message': 'Not permitted.'
         }, 403)
@@ -112,7 +107,6 @@ def verify_decode_jwt(token):
     
     if 'kid' not in unverified_header:
         raise AuthError({
-            'success': False,
             'error': 401,
             'message': 'Invalid authorization header.'
         }, 401)
@@ -141,27 +135,23 @@ def verify_decode_jwt(token):
 
         except jwt.ExpiredSignatureError:
             raise AuthError({
-            'success': False,
             'error': 400,
             'message': 'Token Expired'
             }, 400)
 
         except jwt.JWTClaimsError:
             raise AuthError({
-            'success': False,
-            'error': 401,
+            'error': 400,
             'message': 'Invalid Claims.'
-            }, 401)
+            }, 400)
 
         except Exception:
             raise AuthError({
-            'success': False,
             'error': 400,
             'message': 'Invalid headers.'
         }, 400)
     else:
         raise AuthError({
-            'success': False,
             'error': 400,
             'message': 'Invalid headers unable to find appropriate keys.'
         }, 400)
