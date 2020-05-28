@@ -64,7 +64,7 @@ def get_drinks_detail(payload):
 
 
 '''
-@TODO implement endpoint
+@TODO:[COMPLETED] implement endpoint
     POST /drinks
         it should create a new row in the drinks table
         it should require the 'post:drinks' permission
@@ -91,19 +91,14 @@ def post_drinks(payload):
     except Exception as e:
         # Print statements for debugging
         print(e)
-        
-        return jsonify({
-                'status': False,
-                'error': 422,
-                'message': 'Unprocessable Entity'
-            }), 422
+        abort(422)
 
     return jsonify({
         'success': True,
         'drinks': new_drink.long()
     })
 
-    
+
 '''
 @TODO:[COMPLETED] implement endpoint
     PATCH /drinks/<id>
