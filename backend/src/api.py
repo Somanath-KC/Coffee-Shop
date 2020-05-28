@@ -179,10 +179,10 @@ Example error handling for unprocessable entity
 @app.errorhandler(422)
 def unprocessable(error):
     return jsonify({
-                    "success": False, 
-                    "error": 422,
-                    "message": "unprocessable"
-                    }), 422
+        "success": False, 
+        "error": 422,
+        "message": "unprocessable"
+    }), 422
 
 '''
 @TODO[COMPLETED] implement error handlers using the @app.errorhandler(error) decorator
@@ -202,10 +202,11 @@ def unprocessable(error):
 @app.errorhandler(404)
 def notFoundError(error):
     return jsonify({
-                    "success": False,
-                    "error": 404,
-                    "message": "respurce not found"
-            }), 404
+        "success": False,
+        "error": 404,
+        "message": "respurce not found"
+    }), 404
+
 
 @app.errorhandler(500)
 def internal_errors(error):
