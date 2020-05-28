@@ -99,7 +99,7 @@ def unprocessable(error):
 '''
 
 '''
-@TODO implement error handler for 404
+@TODO:[COMPLETED] implement error handler for 404
     error handler should conform to general task above 
 '''
 @app.errorhandler(404)
@@ -122,3 +122,13 @@ def internal_errors(error):
 @TODO implement error handler for AuthError
     error handler should conform to general task above 
 '''
+# Refrence: 
+#          https://flask.palletsprojects.com/en/1.1.x/patterns/apierrors/#registering-an-error-handler
+@app.errorhandler(AuthError)
+def auth_errors(auth_error):
+    error = auth_error.error
+    return jsonify({
+        'success': False,
+        'error': error.get('error'),
+        'message': error.get('message')
+    }), auth_error.status_code
