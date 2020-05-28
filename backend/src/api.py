@@ -110,6 +110,13 @@ def notFoundError(error):
                     "message": "respurce not found"
             }), 404
 
+@app.errorhandler(500)
+def internal_errors(error):
+    return jsonify({
+        'success': False,
+        'error': 500,
+        'message': "API Internal Error"
+    }), 500
 
 '''
 @TODO implement error handler for AuthError
