@@ -204,7 +204,7 @@ def notFoundError(error):
     return jsonify({
         "success": False,
         "error": 404,
-        "message": "respurce not found"
+        "message": "resource not found"
     }), 404
 
 
