@@ -119,7 +119,8 @@ def internal_errors(error):
     }), 500
 
 '''
-@TODO implement error handler for AuthError
+
+@TODO:[COMPLETED] implement error handler for AuthError
     error handler should conform to general task above 
 '''
 # Refrence: 
