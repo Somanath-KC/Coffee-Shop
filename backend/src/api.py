@@ -12,6 +12,8 @@ setup_db(app)
 CORS(app)
 
 cors = CORS(app, resources={r"*": {"origin": "*"}})
+
+# Add cors headers
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
@@ -77,10 +79,12 @@ def get_drinks_detail(payload):
 def post_drinks(payload):
     try:
         data = request.get_json()
+        # Throws an exception if required body
+        # parts were not included.
         try:
             new_drink = Drink()
-            new_drink.title = data.get('title')
-            new_drink.recipe = json.dumps(data.get('recipe'))
+            new_drink.title = data['title']
+            new_drink.recipe = json.dumps(data['recipe'])
         except:
             return jsonify({
                 'status': False,
