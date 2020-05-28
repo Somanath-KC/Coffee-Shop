@@ -64,8 +64,38 @@ def get_drinks_detail(payload):
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the newly created drink
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks', methods=['POST'])
+@requires_auth('post:drinks')
+def post_drinks(payload):
+    try:
+        data = request.get_json()
+        try:
+            new_drink = Drink()
+            new_drink.title = data.get('title')
+            new_drink.recipe = json.dumps(data.get('recipe'))
+        except:
+            return jsonify({
+                'status': False,
+                'error': 400,
+                'message': 'Invalid body'
+            }), 400
+        new_drink.insert()
+    except Exception as e:
+        # Print statements for debugging
+        print(e)
+        
+        return jsonify({
+                'status': False,
+                'error': 422,
+                'message': 'Unprocessable Entity'
+            }), 422
 
+    return jsonify({
+        'success': True,
+        'drinks': new_drink.long()
+    })
 
+    
 '''
 @TODO implement endpoint
     PATCH /drinks/<id>
