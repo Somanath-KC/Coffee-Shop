@@ -208,6 +208,15 @@ def notFoundError(error):
     }), 404
 
 
+@app.errorhandler(405)
+def notFoundError(error):
+    return jsonify({
+        "success": False,
+        "error": 405,
+        "message": "Method Not Allowed"
+    }), 405
+
+
 @app.errorhandler(500)
 def internal_errors(error):
     return jsonify({
