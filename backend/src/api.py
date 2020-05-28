@@ -45,7 +45,7 @@ def get_drinks():
 
 
 '''
-@TODO implement endpoint
+@TODO[COMPLTED] implement endpoint
     GET /drinks-detail
         it should require the 'get:drinks-detail' permission
         it should contain the drink.long() data representation
