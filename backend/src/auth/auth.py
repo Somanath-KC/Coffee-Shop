@@ -103,7 +103,12 @@ def verify_decode_jwt(token):
     jwks = json.loads(json_url.read())
 
     try:
-    unverified_header = jwt.get_unverified_header(token)
+        unverified_header = jwt.get_unverified_header(token)
+    except:
+        raise AuthError({
+            'error': 400,
+            'message': 'Invalid Token'
+        }, 401)
 
     rsa_key = {}
     
