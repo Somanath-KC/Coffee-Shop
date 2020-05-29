@@ -138,7 +138,7 @@ def patch_drink(payload, drink_id):
         drink.update()
         return jsonify({
             'status': True,
-            'drinks': drink.long()
+            'drinks': [drink.long()]
         })
     except Exception as e:
         # Print statements for debugging

@@ -81,9 +81,9 @@ def check_permissions(permission, payload):
 
     if permission not in payload.get('permissions'):
         raise AuthError({
-            'error': 403,
+            'error': 401,
             'message': 'Not permitted.'
-        }, 403)
+        }, 401)
 
 '''
 @TODO:[COMPLETED] implement verify_decode_jwt(token) method
@@ -106,7 +106,7 @@ def verify_decode_jwt(token):
         unverified_header = jwt.get_unverified_header(token)
     except:
         raise AuthError({
-            'error': 400,
+            'error': 401,
             'message': 'Invalid Token'
         }, 401)
 
@@ -142,26 +142,26 @@ def verify_decode_jwt(token):
 
         except jwt.ExpiredSignatureError:
             raise AuthError({
-            'error': 400,
+            'error': 401,
             'message': 'Token Expired'
-            }, 400)
+            }, 401)
 
         except jwt.JWTClaimsError:
             raise AuthError({
-            'error': 400,
+            'error': 401,
             'message': 'Invalid Claims.'
-            }, 400)
+            }, 401)
 
         except Exception:
             raise AuthError({
-            'error': 400,
+            'error': 401,
             'message': 'Invalid headers.'
-        }, 400)
+        }, 401)
     else:
         raise AuthError({
-            'error': 400,
+            'error': 401,
             'message': 'Invalid headers unable to find appropriate keys.'
-        }, 400)
+        }, 401)
 
 '''
 @TODO implement @requires_auth(permission) decorator method
